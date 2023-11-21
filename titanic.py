@@ -1,10 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Nov 21 11:44:24 2023
-
-@author: Mohamad
-"""
-
+# import the libraries
 import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
@@ -18,17 +12,19 @@ test_data = pd.read_csv("test.csv")
 train_data.isnull().sum()
 test_data.isnull().sum()
 
+# Choose features
 features = ['Pclass','Sex','SibSp','Parch','Embarked','Age']
 
+# make train datas
 X_train = train_data[features]
 X_train["Age"].fillna(train_data['Age'].mean(), inplace=True)
 X_train = pd.get_dummies(X_train, columns=['Pclass','Sex','Embarked'], drop_first=True)
+Y_train = train_data['Survived']
 
+# make test datas just for X
 X_test = test_data[features]
 X_test = pd.get_dummies(test_data[features], columns=['Pclass','Sex','Embarked'], drop_first=True)
 X_test["Age"].fillna(test_data['Age'].mean(), inplace=True)
-
-Y_train = train_data['Survived']
 
 RFC = RandomForestClassifier(random_state=1234)
 
